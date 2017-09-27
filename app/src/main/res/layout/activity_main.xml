@@ -4,81 +4,67 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/pn_red"
-        >
+
 
         <TextView
             android:id="@+id/main_username"
             android:text="Kevin"
             android:layout_centerInParent="true"
-            android:textColor="@color/white"
+
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"/>
 
-        <View
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/light_fade_up"/>
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft  ="@dimen/activity_horizontal_margin"
-        android:paddingRight ="@dimen/activity_horizontal_margin"
-        android:paddingTop   ="10dp"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/call_num"
-            android:hint="Enter a number..."
-            android:inputType="textShortMessage"
-            android:maxLines="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"/>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <ImageButton
-                android:background="@drawable/round_button_send"
-                android:src="@drawable/ic_action_call"
-                android:layout_centerInParent="true"
-                android:layout_height="50dp"
-                android:layout_width ="50dp"
-                android:scaleType="fitCenter"
-                android:padding="8dp"
-                android:onClick="makeCall"/>
-        </RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+            <Button
+                android:background="@color/ComputerGrey"
+                android:drawableTop="@drawable/ic_videocam_black_48dp"
+                android:layout_height="wrap_content"
+                android:layout_width ="match_parent"
+                android:text="@string/start_stream"
+                android:textSize="20sp"
+                android:onClick="makeCall"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:id="@android:id/empty"
+                android:background="@color/grey"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_call_history"
+                />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/light_fade_down"/>
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    <TextView
-        android:id="@android:id/empty"
-        android:background="@color/grey"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/no_call_history"
-        />
+
+
 
 
 </LinearLayout>

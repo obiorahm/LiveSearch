@@ -185,6 +185,7 @@ public class MainActivity extends ListActivity {
             @Override
             public void successCallback(String channel, Object message) {
                 Log.d("MA-dC", "HERE_NOW: " +" CH - " + callNumStdBy + " " + message.toString());
+                //Log.d("Channel: ", channel);
                 try {
                     int occupancy = ((JSONObject) message).getInt(Constants.JSON_OCCUPANCY);
                     if (occupancy == 0) {

@@ -7,4 +7,5 @@
     <color name="green">#ff1ce322</color>
     <color name="grey">#eee</color>
     <color name="text_border">@android:color/holo_blue_dark</color>
+    <color name="ComputerGrey">#C0C0C0</color>
 </resources>
