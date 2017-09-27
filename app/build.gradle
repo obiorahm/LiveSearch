@@ -30,5 +30,5 @@ dependencies {
     compile 'com.pubnub:pubnub-android:3.7.4'
     compile 'io.pristine:libjingle:9694@aar'
     compile project(':pnwebrtc')
-    compile files('libs/builder-test-api-0.13.2.jar')
+    //compile files('libs/builder-test-api-0.13.2.jar')
 }
