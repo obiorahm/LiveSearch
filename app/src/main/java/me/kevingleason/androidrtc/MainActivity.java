@@ -20,6 +20,7 @@ import com.pubnub.api.PubnubException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.webrtc.VideoCapturerAndroid;
 
 import java.util.ArrayList;
 
@@ -32,12 +33,14 @@ public class MainActivity extends ListActivity {
     private SharedPreferences mSharedPreferences;
     private String username;
     private String stdByChannel;
+    private String cameraId = VideoCapturerAndroid.getNameOfBackFacingDevice();
     private Pubnub mPubNub;
 
     private ListView mHistoryList;
     private HistoryAdapter mHistoryAdapter;
     //private EditText mCallNumET;
     private TextView mUsernameTV;
+    private String mbackFace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +63,15 @@ public class MainActivity extends ListActivity {
 
         this.mUsernameTV.setText(this.username);
         initPubNub();
+        Log.d("we will dedicate", "the answer is " + mSharedPreferences.getBoolean(Constants.MAKECALL,false));
+        if (mSharedPreferences.getBoolean(Constants.MAKECALL,false)){
+            dispatchCall(this.username);
+        }
 
         this.mHistoryAdapter = new HistoryAdapter(this, new ArrayList<HistoryItem>(), this.mPubNub);
         this.mHistoryList.setAdapter(this.mHistoryAdapter);
+
+
     }
 
 
@@ -202,6 +211,8 @@ public class MainActivity extends ListActivity {
                             Intent intent = new Intent(MainActivity.this, VideoChatActivity.class);
                             intent.putExtra(Constants.USER_NAME, username);
                             intent.putExtra(Constants.CALL_USER, callNum);  // Only accept from this number?
+                            intent.putExtra(Constants.CAMERA_ID, cameraId);
+                            intent.putExtra(Constants.BACKFACE, true);
                             startActivity(intent);
                         }
                     });

@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +72,11 @@ public class VideoChatActivity extends ListActivity {
     private boolean backPressed = false;
     private Thread  backPressedThread = null;
 
+    private boolean backFacingCamera;
+    private String callUser;
+    private VideoCapturer capturer;
+    VideoCapturerAndroid capture;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +85,8 @@ public class VideoChatActivity extends ListActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null || !extras.containsKey(Constants.USER_NAME)) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, MainActivity.class);
+            //startActivity(intent);
             Toast.makeText(this, "Need to pass username to VideoChatActivity in intent extras (Constants.USER_NAME).",
                     Toast.LENGTH_SHORT).show();
             finish();
@@ -112,19 +119,22 @@ public class VideoChatActivity extends ListActivity {
 
         // Returns the number of cams & front/back face device name
         int camNumber = VideoCapturerAndroid.getDeviceCount();
-        String frontFacingCam = VideoCapturerAndroid.getNameOfFrontFacingDevice();
-        String backFacingCam = VideoCapturerAndroid.getNameOfBackFacingDevice();
+        //String frontFacingCam = VideoCapturerAndroid.getNameOfFrontFacingDevice();
+        //String backFacingCam = VideoCapturerAndroid.getNameOfBackFacingDevice();
+        backFacingCamera = extras.getBoolean(Constants.BACKFACE);
 
         // Creates a VideoCapturerAndroid instance for the device name
-        VideoCapturer capturer = VideoCapturerAndroid.create(frontFacingCam);
+        capturer = VideoCapturerAndroid.create(extras.getString(Constants.CAMERA_ID));
+        capture = (VideoCapturerAndroid) capturer;
+
 
         // First create a Video Source, then we can make a Video Track
         localVideoSource = pcFactory.createVideoSource(capturer, this.pnRTCClient.videoConstraints());
         VideoTrack localVideoTrack = pcFactory.createVideoTrack(VIDEO_TRACK_ID, localVideoSource);
 
         // First we create an AudioSource then we can create our AudioTrack
-        AudioSource audioSource = pcFactory.createAudioSource(this.pnRTCClient.audioConstraints());
-        AudioTrack localAudioTrack = pcFactory.createAudioTrack(AUDIO_TRACK_ID, audioSource);
+        //AudioSource audioSource = pcFactory.createAudioSource(this.pnRTCClient.audioConstraints());
+        //AudioTrack localAudioTrack = pcFactory.createAudioTrack(AUDIO_TRACK_ID, audioSource);
 
         // To create our VideoRenderer, we can use the included VideoRendererGui for simplicity
         // First we need to set the GLSurfaceView that it should render to
@@ -144,7 +154,8 @@ public class VideoChatActivity extends ListActivity {
 
         // Now we can add our tracks.
         mediaStream.addTrack(localVideoTrack);
-        mediaStream.addTrack(localAudioTrack);
+        //mediaStream.addTrack(localAudioTrack);
+
 
         // First attach the RTC Listener so that callback events will be triggered
         this.pnRTCClient.attachRTCListener(new DemoRTCListener());
@@ -160,9 +171,22 @@ public class VideoChatActivity extends ListActivity {
         // If the intent contains a number to dial, call it now that you are connected.
         //  Else, remain listening for a call.
         if (extras.containsKey(Constants.CALL_USER)) {
-            String callUser = extras.getString(Constants.CALL_USER, "");
+            callUser = extras.getString(Constants.CALL_USER, "");
             connectToUser(callUser);
         }
+    }
+
+  public void switchCamera(View view){
+
+        //hangup();
+      capture.switchCamera(new Runnable() {
+          @Override
+          public void run() {
+              //update your UI
+              VideoRendererGui.update(localRender,0, 0, 100, 100, VideoRendererGui.ScalingType.SCALE_ASPECT_FILL, true);
+          }
+      });
+
     }
 
     @Override
@@ -255,8 +279,13 @@ public class VideoChatActivity extends ListActivity {
         endCall();
     }
 
+    public void hangup() {
+        this.pnRTCClient.closeAllConnections();
+        endCall();
+    }
+
     private void endCall() {
-        startActivity(new Intent(VideoChatActivity.this, MainActivity.class));
+        //startActivity(new Intent(VideoChatActivity.this, MainActivity.class));
         finish();
     }
 
@@ -353,8 +382,8 @@ public class VideoChatActivity extends ListActivity {
                 }
             });
             try {Thread.sleep(1500);} catch (InterruptedException e){e.printStackTrace();}
-            Intent intent = new Intent(VideoChatActivity.this, MainActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(VideoChatActivity.this, MainActivity.class);
+            //startActivity(intent);
             finish();
         }
     }

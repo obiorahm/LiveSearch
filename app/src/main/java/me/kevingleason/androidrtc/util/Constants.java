@@ -7,6 +7,9 @@ public class Constants {
     public static final String SHARED_PREFS = "me.kg.androidrtc.SHARED_PREFS";
     public static final String USER_NAME    = "me.kg.androidrtc.SHARED_PREFS.USER_NAME";
     public static final String CALL_USER    = "me.kg.androidrtc.SHARED_PREFS.CALL_USER";
+    public static final String CAMERA_ID   = "me.kg.androidrtc.SHARED_PREFS.CAMERA_ID";
+    public static final String BACKFACE  = "me.kg.androidrtc.SHARED_PREFS.BACKFACE";
+    public static final String MAKECALL = "me.kg.androidrtc.SHARED_PREFS.MAKECALL";
     public static final String STDBY_SUFFIX = "-stdby";
 
     public static final String PUB_KEY = "pub-c-c3bec981-532d-4201-8bda-b1764fde438a"; // Your Pub Key
